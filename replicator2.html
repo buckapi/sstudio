@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Studio | Nuevo Proyecto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="assets/css/vendor.min.css" rel="stylesheet">
+    <link href="assets/css/app.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div id="app" class="app">
+    <div id="content" class="app-content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-10">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1 class="page-header">Nuevo Proyecto</h1>
+                            <!-- Formulario actualizado -->
+                            <form id="rsyncForm">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Nombre del nuevo proyecto:</label>
+                                    <input type="text" class="form-control" id="projectName" name="nombreProyecto">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Directorio fuente:</label>
+                                    <input type="text" class="form-control" id="sourceDir" name="directorioFuente">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Directorio destino:</label>
+                                    <input type="text" class="form-control" id="destDir" name="directorioDestino">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Directorio a excluir:</label>
+                                    <input type="text" class="form-control" id="excludeDir" name="directorioExcluir">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="form-label">URL repositorio Git:</label>
+                                    <input type="text" class="form-control" id="gitRepoUrl" name="urlRepositorio">
+                                </div>
+                                <button type="submit" class="btn btn-outline-theme">Enviar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('rsyncForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    var data = {
+        project_name: document.getElementById('projectName').value,
+        source_dir: document.getElementById('sourceDir').value,
+        dest_dir: document.getElementById('destDir').value,
+        exclude_dir: document.getElementById('excludeDir').value,
+        git_repo_url: document.getElementById('gitRepoUrl').value  // Asegúrate de usar este valor adecuadamente en tu API.
+    };
+
+    fetch('https://buckapi.com:6464/run-rsync', {  // Asegúrate de que la URL aquí sea correcta.
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Respuesta del servidor:', data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+</script>
+
+<script src="assets/js/vendor.min.js"></script>
+<script src="assets/js/app.min.js"></script>
+</body>
+</html>
+
